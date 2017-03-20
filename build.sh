@@ -8,7 +8,7 @@ if [ ! -f .yarn-cache.tgz ]; then
   tar cvzf .yarn-cache.tgz --files-from /dev/null
 fi
 
-docker build . -t yarn-demo
+docker build -t yarn-demo .
 
 docker run --rm --entrypoint cat yarn-demo:latest /tmp/yarn.lock > /tmp/yarn.lock
 if ! diff -q yarn.lock /tmp/yarn.lock > /dev/null  2>&1; then
