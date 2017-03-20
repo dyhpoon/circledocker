@@ -21,3 +21,7 @@ RUN mkdir -p /opt/app && cd /opt/app && ln -s /tmp/node_modules
 
 # Copy the code
 ADD . /opt/app
+
+RUN ls -al /
+
+RUN ls -al /opt
