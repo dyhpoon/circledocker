@@ -7,15 +7,10 @@ WORKDIR /opt/app
 # Install yarn
 RUN mkdir -p /opt
 COPY latest.tar.gz /opt/
-RUN tar -xvzf /opt/latest.tar.gz
-
-RUN ls -al /
-
-RUN ls -al /opt
-
-RUN ls -al /opt/yarn
+RUN cd /opt && tar -xzf latest.tar.gz
 
 RUN mv /opt/dist /opt/yarn
+
 ENV PATH "$PATH:/opt/yarn/bin"
 
 ADD package.json yarn.lock /tmp/
@@ -31,3 +26,9 @@ RUN mkdir -p /opt/app && cd /opt/app && ln -s /tmp/node_modules
 
 # Copy the code
 ADD . /opt/app
+
+RUN ls -al /
+
+RUN ls -al /opt
+
+RUN ls -al /opt/yarn
