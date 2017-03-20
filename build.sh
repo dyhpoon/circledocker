@@ -10,9 +10,11 @@ fi
 
 if [[ -z "${CIRCLE_BRANCH}" ]]; then
   # running in non ci environment
+  echo 'docker build -t yarn-demo .'
   docker build -t yarn-demo .
 else
   # running on circle ci
+  echo 'docker build --rm=false -t yarn-demo .'
   docker build --rm=false -t yarn-demo .
 fi
 
