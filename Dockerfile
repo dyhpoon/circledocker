@@ -8,17 +8,14 @@ WORKDIR /opt/app
 RUN mkdir -p /opt
 COPY latest.tar.gz /opt/
 RUN cd /opt && tar -xzf latest.tar.gz
-
 RUN mv /opt/dist /opt/yarn
-
 ENV PATH "$PATH:/opt/yarn/bin"
 
+# add package.json to container
 ADD package.json yarn.lock /tmp/
 
 # Copy cache contents (if any) from local machine
 ADD .yarn-cache.tgz /
-
-RUN echo $PATH
 
 # Install packages
 RUN cd /tmp && yarn
