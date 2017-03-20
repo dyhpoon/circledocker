@@ -7,7 +7,7 @@ WORKDIR /opt/app
 # Install yarn
 RUN mkdir -p /opt
 COPY latest.tar.gz /opt/
-RUN tar -xzf /opt/latest.tar.gz
+RUN tar -xvzf /opt/latest.tar.gz
 
 RUN ls -al /
 
