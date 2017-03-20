@@ -9,4 +9,4 @@ dependencies:
 
 test:
   override:
-    - docker run yarn-demo npm test
+    - docker run -it yarn-demo npm test
