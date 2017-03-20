@@ -2,43 +2,32 @@
 
 touch yarn.lock
 
+if [[ -z "${CIRCLE_BRANCH}" ]]; then
+  # running in non ci environment
+  RM="--rm"
+else
+  # running on circle ci
+  RM="--rm=false"
+fi
+
 # Init empty cache file
 if [ ! -f .yarn-cache.tgz ]; then
   echo "Init empty .yarn-cache.tgz"
   tar cvzf .yarn-cache.tgz --files-from /dev/null
 fi
 
-if [[ -z "${CIRCLE_BRANCH}" ]]; then
-  # running in non ci environment
-  echo 'docker build -t yarn-demo .'
-  docker build -t yarn-demo .
-else
-  # running on circle ci
-  echo 'docker build --rm=false -t yarn-demo .'
-  docker build --rm=false -t yarn-demo .
-fi
+echo docker build $RM -t yarn-demo .
+docker build $RM -t yarn-demo .
 
-if [[ -z "${CIRCLE_BRANCH}" ]]; then
-  # running in non ci environment
-  echo 'docker run --rm --entrypoint cat yarn-demo:latest /tmp/yarn.lock > /tmp/yarn.lock'
-  docker run --rm --entrypoint cat yarn-demo:latest /tmp/yarn.lock > /tmp/yarn.lock
-else
-  # running on circle ci
-  echo 'docker run --rm=false --entrypoint cat yarn-demo:latest /tmp/yarn.lock > /tmp/yarn.lock'
-  docker run --rm=false --entrypoint cat yarn-demo:latest /tmp/yarn.lock > /tmp/yarn.lock
-fi
+echo docker run $RM --entrypoint cat yarn-demo:latest /tmp/yarn.lock > /tmp/yarn.lock
+docker run $RM --entrypoint cat yarn-demo:latest /tmp/yarn.lock > /tmp/yarn.lock
 
 if ! diff -q yarn.lock /tmp/yarn.lock > /dev/null  2>&1; then
   echo "Saving Yarn cache"
-  if [[ -z "${CIRCLE_BRANCH}" ]]; then
-    # running in non ci environment
-    echo 'docker run --rm --entrypoint tar yarn-demo:latest czf - /root/.yarn-cache/ > .yarn-cache.tgz'
-    docker run --rm --entrypoint tar yarn-demo:latest czf - /root/.yarn-cache/ > .yarn-cache.tgz
-  else
-    # running on circle ci
-    echo 'docker run --rm=false --entrypoint tar yarn-demo:latest czf - /root/.yarn-cache/ > .yarn-cache.tgz'
-    docker run --rm=false --entrypoint tar yarn-demo:latest czf - /root/.yarn-cache/ > .yarn-cache.tgz
-  fi
+
+  echo docker run $RM --entrypoint tar yarn-demo:latest czf - /root/.yarn-cache/ > .yarn-cache.tgz
+  docker run $RM --entrypoint tar yarn-demo:latest czf - /root/.yarn-cache/ > .yarn-cache.tgz
+
   echo "Saving yarn.lock"
   cp /tmp/yarn.lock yarn.lock
 fi
