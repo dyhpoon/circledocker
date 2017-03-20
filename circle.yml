@@ -8,5 +8,5 @@ dependencies:
     - ./build.sh
 
 test:
-  override:
-    - echo 'test'
+  post:
+    - docker run -it --rm yarn-demo npm test
