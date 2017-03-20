@@ -19,6 +19,10 @@ RUN ls -al /
 
 RUN ls -al /opt
 
+RUN ls -al /opt/yarn
+
+RUN echo $PATH
+
 # Install packages
 RUN cd /tmp && yarn
 RUN mkdir -p /opt/app && cd /opt/app && ln -s /tmp/node_modules
