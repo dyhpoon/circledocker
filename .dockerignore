@@ -1,0 +1,8 @@
+.git
+.gitignore
+.idea
+.DS_Store
+.vscode
+*.log
+node_modules
+flow-typed

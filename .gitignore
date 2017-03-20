@@ -1,2 +1,13 @@
 node_modules
 .yarn-cache.tgz
+node_modules
+npm-debug.log
+yarn-error.log
+yarn.tmp.lock
+.tmp
+.idea
+public
+compiled
+compiledApi
+.swp
+.env.development
