@@ -6,7 +6,8 @@ WORKDIR /opt/app
 
 # Install yarn
 RUN mkdir -p /opt
-ADD latest.tar.gz /opt/
+COPY latest.tar.gz /opt/
+RUN tar -xvzf /opt/latest.tar.gz
 RUN mv /opt/dist /opt/yarn
 ENV PATH "$PATH:/opt/yarn/bin"
 
