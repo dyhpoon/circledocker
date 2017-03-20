@@ -7,7 +7,7 @@ WORKDIR /opt/app
 # Install yarn
 RUN mkdir -p /opt
 COPY latest.tar.gz /opt/
-RUN tar -xvzf /opt/latest.tar.gz
+RUN tar -xzf /opt/latest.tar.gz
 RUN mv /opt/dist /opt/yarn
 ENV PATH "$PATH:/opt/yarn/bin"
 
@@ -30,4 +30,3 @@ RUN mkdir -p /opt/app && cd /opt/app && ln -s /tmp/node_modules
 
 # Copy the code
 ADD . /opt/app
-
