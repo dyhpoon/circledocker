@@ -15,6 +15,10 @@ ADD package.json yarn.lock /tmp/
 # Copy cache contents (if any) from local machine
 ADD .yarn-cache.tgz /
 
+RUN ls -al /
+
+RUN ls -al /opt
+
 # Install packages
 RUN cd /tmp && yarn
 RUN mkdir -p /opt/app && cd /opt/app && ln -s /tmp/node_modules
@@ -22,6 +26,3 @@ RUN mkdir -p /opt/app && cd /opt/app && ln -s /tmp/node_modules
 # Copy the code
 ADD . /opt/app
 
-RUN ls -al /
-
-RUN ls -al /opt
