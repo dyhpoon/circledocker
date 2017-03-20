@@ -18,10 +18,27 @@ else
   docker build --rm=false -t yarn-demo .
 fi
 
-docker run --rm --entrypoint cat yarn-demo:latest /tmp/yarn.lock > /tmp/yarn.lock
+if [[ -z "${CIRCLE_BRANCH}" ]]; then
+  # running in non ci environment
+  echo 'docker run --rm --entrypoint cat yarn-demo:latest /tmp/yarn.lock > /tmp/yarn.lock'
+  docker run --rm --entrypoint cat yarn-demo:latest /tmp/yarn.lock > /tmp/yarn.lock
+else
+  # running on circle ci
+  echo 'docker run --rm=false --entrypoint cat yarn-demo:latest /tmp/yarn.lock > /tmp/yarn.lock'
+  docker run --rm=false --entrypoint cat yarn-demo:latest /tmp/yarn.lock > /tmp/yarn.lock
+fi
+
 if ! diff -q yarn.lock /tmp/yarn.lock > /dev/null  2>&1; then
   echo "Saving Yarn cache"
-  docker run --rm --entrypoint tar yarn-demo:latest czf - /root/.yarn-cache/ > .yarn-cache.tgz
+  if [[ -z "${CIRCLE_BRANCH}" ]]; then
+    # running in non ci environment
+    echo 'docker run --rm --entrypoint tar yarn-demo:latest czf - /root/.yarn-cache/ > .yarn-cache.tgz'
+    docker run --rm --entrypoint tar yarn-demo:latest czf - /root/.yarn-cache/ > .yarn-cache.tgz
+  else
+    # running on circle ci
+    echo 'docker run --rm=false --entrypoint tar yarn-demo:latest czf - /root/.yarn-cache/ > .yarn-cache.tgz'
+    docker run --rm=false --entrypoint tar yarn-demo:latest czf - /root/.yarn-cache/ > .yarn-cache.tgz
+  fi
   echo "Saving yarn.lock"
   cp /tmp/yarn.lock yarn.lock
 fi
