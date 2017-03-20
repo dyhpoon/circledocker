@@ -5,6 +5,9 @@
   "main": "index.js",
   "author": "Martino Fornasa <mf@fornasa.it>",
   "license": "MIT",
+  "scripts": {
+    "test": "jest --runInBand"
+  },
   "dependencies": {
     "babel-jest": "^19.0.0",
     "babel-preset-es2015": "^6.24.0",

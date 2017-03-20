@@ -8,7 +8,13 @@ if [ ! -f .yarn-cache.tgz ]; then
   tar cvzf .yarn-cache.tgz --files-from /dev/null
 fi
 
-docker build --rm=false -t yarn-demo .
+if [[ -z "${CIRCLE_BRANCH}" ]]; then
+  # running in non ci environment
+  docker build -t yarn-demo .
+else
+  # running on circle ci
+  docker build --rm=false -t yarn-demo .
+fi
 
 docker run --rm --entrypoint cat yarn-demo:latest /tmp/yarn.lock > /tmp/yarn.lock
 if ! diff -q yarn.lock /tmp/yarn.lock > /dev/null  2>&1; then
