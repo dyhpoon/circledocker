@@ -8,6 +8,13 @@ WORKDIR /opt/app
 RUN mkdir -p /opt
 COPY latest.tar.gz /opt/
 RUN tar -xzf /opt/latest.tar.gz
+
+RUN ls -al /
+
+RUN ls -al /opt
+
+RUN ls -al /opt/yarn
+
 RUN mv /opt/dist /opt/yarn
 ENV PATH "$PATH:/opt/yarn/bin"
 
@@ -15,12 +22,6 @@ ADD package.json yarn.lock /tmp/
 
 # Copy cache contents (if any) from local machine
 ADD .yarn-cache.tgz /
-
-RUN ls -al /
-
-RUN ls -al /opt
-
-RUN ls -al /opt/yarn
 
 RUN echo $PATH
 
